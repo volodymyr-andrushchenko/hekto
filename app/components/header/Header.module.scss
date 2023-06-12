@@ -1,0 +1,79 @@
+.topWrapper {
+  background-color: var(--violet);
+  color: #f1f1f1;
+  padding: 15px 0;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.contactLink {
+  padding-left: 20px;
+  background: left center no-repeat;
+
+  &:not(:first-child) {
+    margin-left: 50px;
+  }
+}
+
+.telLink {
+  background-image: url('/icons/bx_bx-phone-call.svg');
+}
+
+.emailLink {
+  background-image: url('/icons/uil_envelope-alt.svg');
+}
+
+.controls {
+  max-width: 400px;
+}
+
+.select {
+  color: #f1f1f1;
+  padding-right: 10px;
+  background: url('/ui/arr-select.svg') right center no-repeat;
+  outline-offset: 5px;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.topLink {
+  padding-right: 20px;
+  background-position: right center;
+  background-repeat: no-repeat;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.login {
+  background-image: url('/icons/carbon_user.svg');
+}
+
+.wishlist {
+  background-image: url('/icons/uil_heart-alt.svg');
+}
+
+.cart {
+  background-image: url('/icons/fluent_cart-24-regular.svg');
+}
+
+.bottomWrapper {
+  padding: 20px 0;
+}
+
+.logo {
+  font-size: 34px;
+  line-height: 40px;
+  color: #0d0e43;
+  font-weight: 600;
+}
+
+.navLink {
+  font-weight: 400;
+
+  &:not(:first-child) {
+    margin-left: 20px;
+  }
+}
