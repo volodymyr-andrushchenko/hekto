@@ -1,5 +1,5 @@
-import { ProductApi } from '@/app/(utils)/api'
-import Header from '@/app/components/header/Header'
+import { ProductApi } from '@/app/modules/product/api'
+import Header from '@/app/modules/layout/header/Header'
 import { FC } from 'react'
 
 type Params = {

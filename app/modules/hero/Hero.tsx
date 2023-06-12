@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import cl from './Hero.module.scss'
 import names from 'classnames'
-import { lato } from '@/app/style/fonts'
+import { lato } from '@/app/styles/fonts'
 
 const data = {
   mainColor: '#F2F0FF',

@@ -2,8 +2,8 @@ import Link from 'next/link'
 import names from 'classnames'
 import cl from './Header.module.scss'
 
-import { josefin } from '@/app/style/fonts'
-import Search from './components/search/Search'
+import { josefin } from '@/app/styles/fonts'
+import Search from '@/app/modules/search/Search'
 
 const Header = () => {
   return (

@@ -1,5 +1,5 @@
-import { client } from '@/app/(utils)/contentful'
-import type { Product } from '@/app/types'
+import { client } from '@/app/services/contentful'
+import type { Product } from '@/app/modules/product/types/product.type'
 import * as contentful from 'contentful'
 
 type ProductEntrySkeleton = {
@@ -55,17 +55,3 @@ export const ProductApi = {
       .getEntry<ProductEntrySkeleton>(id)
       .then(getProductFromEntry),
 } as const
-
-// export const getProducts = async (): Promise<Product[]> => {
-//   const products = await client.withoutUnresolvableLinks
-//     .getEntries<ProductEntrySkeleton>({ content_type: 'product' })
-//     .then((response) => response.items.map(getProductFromEntry))
-//     .catch(console.error)
-
-//   return products ?? []
-// }
-
-// export const getProduct = async (id: string): Promise<Product> =>
-//   client.withoutUnresolvableLinks
-//     .getEntry<ProductEntrySkeleton>(id)
-//     .then(getProductFromEntry)
