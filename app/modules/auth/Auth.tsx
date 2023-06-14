@@ -4,47 +4,87 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import names from 'classnames'
 import cl from './Auth.module.scss'
 import { AuthInputs } from './types/auth.types'
-import { User } from 'firebase/auth'
+
 import { useRouter } from 'next/navigation'
-import { LOCAL_STORAGE_USER_ID_KEY } from './constants'
+import { localStorageService } from '@/app/services/localStorage'
+import SnackBar from '../snack-bar/Snackbar'
+import type { Action as SnackBarAction } from '@/app/modules/snack-bar/Snackbar.interface'
+import { FC, useState } from 'react'
+import { FirebaseError } from 'firebase/app'
+import { Props } from './Auth.interface'
+import { routes } from '../core/routes'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
-type Props = {
-  onSubmit: ({ email, password }: AuthInputs) => Promise<undefined | User>
-}
+const validarionSchema = yup.object().shape({
+  email: yup.string().email('Email is not valid').required('Email is required'),
+  password: yup
+    .string()
+    .min(8, 'Min length is 8 symbols')
+    .required('Password is required'),
+})
 
-const Auth = ({ onSubmit }: Props) => {
+const Auth: FC<Props> = ({ onSubmit }) => {
   const router = useRouter()
 
-  const { register, handleSubmit } = useForm<AuthInputs>()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AuthInputs>({
+    resolver: yupResolver(validarionSchema),
+  })
+
+  const [snackBar, setSnackBar] = useState<{
+    action: SnackBarAction
+    messsage?: string
+  }>({ action: 'closed' })
 
   const onSubmitHandler: SubmitHandler<AuthInputs> = async (data) => {
-    const user = await onSubmit(data)
+    try {
+      const user = await onSubmit(data)
 
-    if (user) {
-      localStorage.setItem(LOCAL_STORAGE_USER_ID_KEY, user.uid)
-      router.push('/')
-    } else {
-      console.error('wrong credentials')
+      if (user) {
+        localStorageService.setUserId(user.uid)
+        router.push(routes.home)
+      }
+    } catch (err) {
+      if (err instanceof FirebaseError) {
+        setSnackBar({ action: 'auth/error', messsage: err.message })
+        return
+      }
+
+      console.error(err)
     }
   }
 
   return (
-    <form
-      className={names(cl.form, 'flex', 'column', 'space-between')}
-      onSubmit={handleSubmit(onSubmitHandler)}
-    >
-      <input
-        type="text"
-        {...register('email', { required: true })}
-        placeholder="email"
+    <>
+      <form
+        className={names(cl.form, 'flex', 'column', 'space-between')}
+        onSubmit={handleSubmit(onSubmitHandler)}
+        noValidate
+      >
+        <input
+          type="email"
+          {...register('email', { required: true })}
+          placeholder="email"
+        />
+        <p>{errors.email?.message}</p>
+        <input
+          type="password"
+          {...register('password', { required: true })}
+          placeholder="password"
+        />
+        <p>{errors.password?.message}</p>
+        <input type="submit" />
+      </form>
+      <SnackBar
+        action={snackBar.action}
+        onClose={() => setSnackBar({ action: 'closed' })}
+        message={snackBar.messsage}
       />
-      <input
-        type="text"
-        {...register('password', { required: true })}
-        placeholder="password"
-      />
-      <input type="submit" />
-    </form>
+    </>
   )
 }
 

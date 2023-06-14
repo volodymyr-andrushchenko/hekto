@@ -1,31 +1,27 @@
-import {
-  collection,
-  addDoc,
-  doc,
-  getDoc,
-  updateDoc,
-  arrayUnion,
-  setDoc,
-} from 'firebase/firestore'
+'use client'
 
-import { db } from '@/app/services/firebase'
-import { Product } from '@/app/modules/product/types/product.type'
+import { localStorageService } from '@/app/services/localStorage'
+import { UnauthorizedError } from '../../auth/errors'
+import { FirebaseCartApi } from '@/app/services/firebase/cart'
+import { Order } from '@/app/modules/cart/types/order.type'
 
 export const CartApi = {
-  addToCart: async (
-    userId: string,
-    item: Product,
-    quantity: number,
-    color: string
-  ) => {
-    throw new Error('implement this correctly')
+  fetchCart: () => {
+    const userId = localStorageService.getUserId()
 
-    try {
-      const docRef = doc(db, 'cart', userId)
-
-      return setDoc(docRef, { items: arrayUnion(item) }, { merge: true })
-    } catch (e) {
-      console.error('Error adding document: ', e)
+    if (userId) {
+      return FirebaseCartApi.getCart(userId)
     }
+
+    throw new UnauthorizedError('User in not authenticated')
+  },
+  addToCart(order: Order) {
+    const userId = localStorageService.getUserId()
+
+    if (userId) {
+      return FirebaseCartApi.addToCart(userId, order)
+    }
+
+    throw new UnauthorizedError('User in not authenticated')
   },
 } as const

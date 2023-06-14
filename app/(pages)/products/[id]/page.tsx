@@ -1,7 +1,7 @@
 import { ProductApi } from '@/app/modules/product/api'
-import Header from '@/app/modules/layout/header/Header'
 import { FC } from 'react'
-import AddToCartBtn from '@/app/modules/cart/AddToCartBtn'
+import AddToCartButton from '@/app/modules/cart/add-to-cart-button/AddToCartButton'
+import cl from './Product.module.scss'
 
 type Params = {
   id: string
@@ -21,13 +21,14 @@ const Page: FC<Props> = async ({ params }) => {
   const product = await ProductApi.getProduct(params.id)
 
   return (
-    <>
-      <Header />
-      <div className="container">
-        <h1>{product.name}</h1>
-        <AddToCartBtn item={product} />
-      </div>
-    </>
+    <main className="container">
+      <h1>{product.name}</h1>
+      <AddToCartButton
+        text="Add to cart"
+        className={cl.button}
+        product={product}
+      />
+    </main>
   )
 }
 

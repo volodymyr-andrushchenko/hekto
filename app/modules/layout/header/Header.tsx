@@ -4,6 +4,8 @@ import cl from './Header.module.scss'
 
 import { josefin } from '@/app/styles/fonts'
 import Search from '@/app/modules/search/Search'
+import { routes } from '@/app/modules/core/routes'
+import CartLink from '@/app/modules/cart/cart-link/CartLink'
 
 const Header = () => {
   return (
@@ -44,17 +46,13 @@ const Header = () => {
               <option value="usd">USD</option>
               <option value="uan">UAN</option>
             </select>
-            <Link className={names(cl.topLink, cl.login)} href="/login">
+            <Link className={names(cl.topLink, cl.login)} href={routes.login}>
               Login
             </Link>
-            <Link className={names(cl.topLink, cl.wishlist)} href="/cart">
+            <Link className={names(cl.topLink, cl.wishlist)} href={routes.cart}>
               Wishlist
             </Link>
-            <Link
-              className={names(cl.topLink, cl.cart)}
-              href="/cart"
-              aria-label="cart"
-            ></Link>
+            <CartLink />
           </div>
         </div>
       </div>
@@ -66,28 +64,28 @@ const Header = () => {
           cl.bottomWrapper
         )}
       >
-        <Link href="/" className={cl.logo}>
+        <Link href={routes.home} className={cl.logo}>
           Hekto
         </Link>
         <nav className={names('flex', 'align-center')}>
           <ul className="flex">
             <li className={cl.navLink}>
-              <Link href="/">Home</Link>
+              <Link href={routes.home}>Home</Link>
             </li>
             <li className={cl.navLink}>
-              <Link href="/pages">Pages</Link>
+              <Link href={routes.pages}>Pages</Link>
             </li>
             <li className={cl.navLink}>
-              <Link href="/products">Products</Link>
+              <Link href={routes.shop}>Products</Link>
             </li>
             <li className={cl.navLink}>
-              <Link href="/blog">Blog</Link>
+              <Link href={routes.blog}>Blog</Link>
             </li>
             <li className={cl.navLink}>
-              <Link href="/shop">Shop</Link>
+              <Link href={routes.shop}>Shop</Link>
             </li>
             <li className={cl.navLink}>
-              <Link href="/contact">Contact</Link>
+              <Link href={routes.contact}>Contact</Link>
             </li>
           </ul>
         </nav>

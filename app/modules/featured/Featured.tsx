@@ -12,7 +12,7 @@ const Featured: FC<{ products: Product[] }> = ({ products }) => {
       <ul className={names(cl.products, 'flex', 'wrap', 'gap-30')}>
         {products.map((product) => (
           <li key={product.id}>
-            <Card product={product} />
+            <Card variant="featured" product={product} />
           </li>
         ))}
       </ul>
