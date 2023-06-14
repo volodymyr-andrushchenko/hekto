@@ -2,8 +2,8 @@ import { FC } from 'react'
 import cl from './Card.module.scss'
 import Image from 'next/image'
 import names from 'classnames'
-import { lato } from '@/app/style/fonts'
-import { Product } from '@/app/types'
+import { lato } from '@/app/styles/fonts'
+import { Product } from '@/app/modules/product/types/product.type'
 import Link from 'next/link'
 
 type Props = {

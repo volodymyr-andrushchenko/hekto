@@ -1,5 +1,5 @@
-import './style/globals.css'
-import { josefin } from './style/fonts'
+import '../styles/globals.css'
+import { josefin } from '../styles/fonts'
 
 export const metadata = {
   title: 'Hekto',

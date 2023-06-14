@@ -2,7 +2,7 @@
 import names from 'classnames'
 import { useState } from 'react'
 import cl from './Search.module.scss'
-import { josefin } from '@/app/style/fonts'
+import { josefin } from '@/app/styles/fonts'
 
 const Search = () => {
   const [text, setText] = useState('')
