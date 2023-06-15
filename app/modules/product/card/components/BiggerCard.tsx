@@ -1,8 +1,7 @@
 import { FC } from 'react'
-import cl from './BiggerCard.module.scss'
+import cl from './CardComponent.module.scss'
 import Image from 'next/image'
 import names from 'classnames'
-import { lato } from '@/app/styles/fonts'
 import { Product } from '@/app/modules/product/types/product.type'
 import Link from 'next/link'
 import AddToCartButton from '@/app/modules/cart/add-to-cart-button/AddToCartButton'
@@ -13,10 +12,9 @@ type Props = {
 
 const BiggerCard: FC<Props> = ({ product }) => {
   return (
-    <div className={cl.card}>
+    <div className={names(cl.card, cl.bigger)}>
       <AddToCartButton
-        className={cl.addToCartButton}
-        text=""
+        className={names(cl.addToCartButton, cl.centerLeft)}
         product={product}
       />
       <Link href={`/products/${product.id}`}>
@@ -25,22 +23,13 @@ const BiggerCard: FC<Props> = ({ product }) => {
           alt={product.name}
           width={360}
           height={270}
-          className={cl.image}
         />
       </Link>
-      <div
-        className={names(
-          cl.description,
-          lato.className,
-          'flex',
-          'space-between',
-          'align-center'
-        )}
-      >
-        <h3 className={cl.name}>{product.name}</h3>
+      <div className={names('flex', 'space-between', 'align-center')}>
+        <h3 className={cl.nameBasic}>{product.name}</h3>
         <p className={cl.price}>
           ${product.price}.00{' '}
-          <span className={cl.oldPrice}>
+          <span className={cl.discountedPrice}>
             ${Math.floor(product.price / 1.6)}.00
           </span>
         </p>

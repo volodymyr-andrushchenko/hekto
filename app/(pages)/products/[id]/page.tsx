@@ -1,4 +1,4 @@
-import { ProductApi } from '@/app/modules/product/api'
+import { ProductApi } from '@/app/services/contentful/products'
 import { FC } from 'react'
 import AddToCartButton from '@/app/modules/cart/add-to-cart-button/AddToCartButton'
 import cl from './Product.module.scss'

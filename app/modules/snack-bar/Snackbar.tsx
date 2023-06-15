@@ -3,23 +3,21 @@
 import { Snackbar as SnackbarMui, Alert } from '@mui/material'
 import { FC } from 'react'
 import type { Action, Props, SnackBarState } from './Snackbar.interface'
-import { assertUnreachable } from '@/app/helpers'
 
 function SnackBarReducer(action: Action): SnackBarState | undefined {
-  switch (action) {
-    case 'auth/success':
-      return { severity: 'success', message: 'Auth successful' }
-    case 'auth/error':
-      return { severity: 'error', message: 'Auth fail' }
-    case 'cart/success':
-      return { severity: 'success', message: 'Added item successfully' }
-    case 'cart/error':
-      return { severity: 'error', message: 'Failed to add to the cart' }
-    case 'closed':
-      return undefined
-    default:
-      return assertUnreachable(action)
-  }
+  if (action === 'auth/success')
+    return { severity: 'success', message: 'Auth successful' }
+
+  if (action === 'auth/error')
+    return { severity: 'error', message: 'Auth fail' }
+
+  if (action === 'cart/success')
+    return { severity: 'success', message: 'Added item successfully' }
+
+  if (action === 'cart/error')
+    return { severity: 'error', message: 'Failed to add to the cart' }
+
+  return undefined
 }
 
 const SnackBar: FC<Props> = ({ action, onClose, message }) => {

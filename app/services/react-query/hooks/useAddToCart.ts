@@ -5,12 +5,7 @@ import { CART_QUERY_KEY } from '@/app/services/react-query/constants'
 import { UnauthorizedError } from '@/app/modules/auth/errors'
 import { useRouter } from 'next/navigation'
 
-type Args = {
-  onSuccess: () => void
-  onError: () => void
-}
-
-const useAddToCart = ({ onSuccess, onError }: Args) => {
+const useAddToCart = () => {
   const router = useRouter()
 
   const queryClient = useQueryClient()
@@ -19,16 +14,12 @@ const useAddToCart = ({ onSuccess, onError }: Args) => {
     mutationFn: CartApi.addToCart,
     onSuccess: () => {
       queryClient.invalidateQueries([CART_QUERY_KEY])
-      onSuccess()
     },
     onError: (error) => {
       if (error instanceof UnauthorizedError) {
         router.push(routes.login)
         return
       }
-
-      console.log(error)
-      onError()
     },
   })
 }
