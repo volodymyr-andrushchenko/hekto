@@ -6,6 +6,8 @@ import { josefin } from '@/app/styles/fonts'
 import Search from '@/app/modules/search/Search'
 import { routes } from '@/app/modules/core/routes'
 import CartLink from '@/app/modules/cart/cart-link/CartLink'
+import SignOutButton from '../../auth/sign-out-button/SignOutButton'
+import { AuthContext, AuthProvider } from '../../auth/context/AuthProvider'
 
 const Header = () => {
   return (
@@ -52,7 +54,10 @@ const Header = () => {
             <Link className={names(cl.topLink, cl.wishlist)} href={routes.cart}>
               Wishlist
             </Link>
-            <CartLink />
+            <AuthProvider>
+              <CartLink />
+              <SignOutButton />
+            </AuthProvider>
           </div>
         </div>
       </div>

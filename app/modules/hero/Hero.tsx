@@ -1,47 +1,48 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import cl from './Hero.module.scss'
 import names from 'classnames'
 import { lato } from '@/app/styles/fonts'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination } from 'swiper'
+import { Props } from './Hero.interface'
+import { FC } from 'react'
 
-const data = {
-  mainColor: '#F2F0FF',
-  secondaryColor: 'rgba(236, 210, 250, 0.35)',
-  subtitle: 'Best Furniture For Your Castle....',
-  title: 'New Furniture Collection Trends in 2020',
-  description: `
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est
-  adipiscing in phasellus non in justo.`,
-  buttonText: 'Shop Now',
-  imageMain: '',
-  imageSecondary: '',
-}
+import 'swiper/css'
+import 'swiper/css/pagination'
 
-const Hero = () => {
+const Hero: FC<Props> = async ({ promos }) => {
   return (
-    <section
-      style={{ backgroundColor: data.mainColor }}
-      className={names(cl.wrapper)}
-    >
-      <div className={names('container', 'flex')}>
-        <div className={names('flex', 'column', 'center')}>
-          <p className={names(cl.subtitle, lato.className)}>{data.subtitle}</p>
-          <h1 className={cl.title}>{data.title}</h1>
-          <p className={cl.description}>{data.description}</p>
-          <Link className={cl.link} href="/products">
-            {data.buttonText}
-          </Link>
-        </div>
-        <Image
-          src="/images/Shell-Shaped-Armchair-Pink-Velvet-Fabric-One-Seater-Sofa-for-Living-Room 1.png"
-          alt="Best item"
-          width="500"
-          height="500"
-          style={{
-            objectPosition: 'right',
-          }}
-        />
-      </div>
+    <section className={names(cl.wrapper)}>
+      <Swiper pagination={true} modules={[Pagination]} spaceBetween={50}>
+        {promos.map((promo) => (
+          <SwiperSlide key={promo.id}>
+            <div className={names('container', 'flex')}>
+              <div className={names('flex', 'column', 'center')}>
+                <p className={names(cl.subtitle, lato.className)}>
+                  {promo.subtitle}
+                </p>
+                <h1 className={cl.title}>{promo.title}</h1>
+                <p className={cl.description}>{promo.info}</p>
+                <Link className={cl.link} href="/products">
+                  {promo.buttonText}
+                </Link>
+              </div>
+              <Image
+                src={promo.imageMain}
+                alt="Best item"
+                width="500"
+                height="500"
+                style={{
+                  objectPosition: 'right',
+                }}
+              />
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </section>
   )
 }

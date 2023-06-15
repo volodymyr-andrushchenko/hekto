@@ -1,21 +1,17 @@
 import { FC } from 'react'
-import cl from './FeaturedCard.module.scss'
+import cl from './CardComponent.module.scss'
 import Image from 'next/image'
 import names from 'classnames'
 import { lato } from '@/app/styles/fonts'
-import { Product } from '@/app/modules/product/types/product.type'
 import Link from 'next/link'
 import AddToCartButton from '@/app/modules/cart/add-to-cart-button/AddToCartButton'
-
-type Props = {
-  product: Product
-}
+import { Props } from './CardComponent.interface'
 
 const FeaturedCard: FC<Props> = ({ product }) => {
   return (
-    <div className={cl.card}>
+    <div className={names(cl.card, cl.featured)}>
       <AddToCartButton
-        className={cl.addToCartButton}
+        className={names(cl.addToCartButton, cl.topLeft)}
         text=""
         product={product}
       />
@@ -37,7 +33,7 @@ const FeaturedCard: FC<Props> = ({ product }) => {
           'align-center'
         )}
       >
-        <h3 className={cl.name}>{product.name}</h3>
+        <h3 className={cl.namePink}>{product.name}</h3>
         <ul className="flex">
           <li className={cl.colorPaletteListItem}>
             <input
