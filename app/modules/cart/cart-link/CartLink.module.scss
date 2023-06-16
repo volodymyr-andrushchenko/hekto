@@ -1,0 +1,14 @@
+.topLink {
+  padding-right: 20px;
+  background-position: right center;
+  background-repeat: no-repeat;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.cart {
+  background-image: url('/icons/fluent_cart-24-regular.svg');
+}

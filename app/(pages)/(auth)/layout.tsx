@@ -6,21 +6,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <>
-      <Header />
-      <div
-        className={names(
-          'container',
-          'flex',
-          'center',
-          'align-center',
-          'column',
-          'grow'
-        )}
-      >
-        {children}
-      </div>
-    </>
-  )
+  return <main className={'container'}>{children}</main>
 }

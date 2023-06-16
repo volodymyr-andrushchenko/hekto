@@ -41,6 +41,12 @@ img {
   object-fit: contain;
 }
 
+button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
 .container {
   max-width: 1154px;
   margin: auto;
@@ -76,6 +82,10 @@ img {
 
 .gap-30 {
   gap: 30px;
+}
+
+.mt-50 {
+  margin-top: 50px;
 }
 
 .select-reset {
