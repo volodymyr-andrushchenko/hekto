@@ -1,27 +1,26 @@
 'use client'
 
-import { LocalStorageService } from '@/app/services/localStorage'
-import { UnauthorizedError } from '../../auth/errors'
 import { FirebaseCartApi } from '@/app/services/firebase/cart'
 import { Order } from '@/app/modules/cart/types/order.type'
+import { auth } from '@/app/services/firebase'
 
 export const CartApi = {
   fetchCart: () => {
-    const userId = LocalStorageService.getUserId()
+    const user = auth.currentUser
 
-    if (userId) {
-      return FirebaseCartApi.getCart(userId)
+    if (!user) {
+      throw new Error('Assert guard in Cart Api, this should not been thrown')
     }
 
-    throw new UnauthorizedError('User in not authenticated')
+    return FirebaseCartApi.getCart(user.uid)
   },
   addToCart(order: Order) {
-    const userId = LocalStorageService.getUserId()
+    const user = auth.currentUser
 
-    if (userId) {
-      return FirebaseCartApi.addToCart(userId, order)
+    if (!user) {
+      throw new Error('Assert guard in Cart Api, this should not been thrown')
     }
 
-    throw new UnauthorizedError('User in not authenticated')
+    return FirebaseCartApi.addToCart(user.uid, order)
   },
 } as const

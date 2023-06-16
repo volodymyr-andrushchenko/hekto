@@ -5,11 +5,14 @@ import names from 'classnames'
 
 import SnackBar from '@/app/modules/snack-bar/Snackbar'
 import { loginResolver as resolver } from '@/app/modules/auth/form-validators/login'
-import { useAuth } from '@/app/modules/auth/hooks/useAuth'
 import type { LoginInputs } from '@/app/modules/auth/types/auth.types'
 
 import cl from '../Auth.module.scss'
 import { useSnackbarState } from '@/app/modules/snack-bar/hooks/useSnackbarState'
+import { FirebaseAuthApi } from '@/app/services/firebase/auth'
+import { useRouter } from 'next/navigation'
+import { routes } from '@/app/modules/core/routes'
+import { useMutation } from '@tanstack/react-query'
 
 const Login = () => {
   const {
@@ -20,18 +23,29 @@ const Login = () => {
 
   const [snackBar, setSnackBar] = useSnackbarState()
 
-  const onSubmitHandler: SubmitHandler<LoginInputs> = useAuth(
-    'login',
-    (message) => {
-      setSnackBar({ action: 'auth/error', message })
-    }
-  )
+  const router = useRouter()
+
+  const loginMutation = useMutation({
+    mutationFn: FirebaseAuthApi.login,
+    onMutate: () => setSnackBar({ severity: 'info', message: 'Logging in...' }),
+    onSuccess: () => {
+      setSnackBar({ severity: 'success', message: 'Success' })
+      router.push(routes.home)
+    },
+    onError: (error) => {
+      if (error instanceof Error)
+        setSnackBar({ severity: 'error', message: error.message })
+    },
+  })
+
+  const submitHandler: SubmitHandler<LoginInputs> = (data) =>
+    loginMutation.mutate(data)
 
   return (
     <>
       <form
         className={names('flex', 'column', 'space-between')}
-        onSubmit={handleSubmit(onSubmitHandler)}
+        onSubmit={handleSubmit(submitHandler)}
         noValidate
       >
         <input
@@ -49,10 +63,11 @@ const Login = () => {
         />
         <p>{errors.password?.message}</p>
         <input type="submit" value="login" />
+        {loginMutation.isLoading && 'Loading'}
       </form>
       <SnackBar
-        action={snackBar.action}
-        onClose={() => setSnackBar({ action: 'closed' })}
+        severity={snackBar.severity}
+        onClose={() => setSnackBar({ severity: undefined })}
         message={snackBar.message}
       />
     </>
